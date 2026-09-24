@@ -18,6 +18,7 @@ Web de una sola página para Rocasagna Pizzeria (Carrer Major, 97, Gelida). Móv
 npm install
 npm run dev          # desarrollo
 npm run build        # producción -> dist/
+npm run build:orbita # demo para orbitawebs.com/rocasagna-pizzeria/ (noindex)
 npm run build:demo   # demo para GitHub Pages (noindex, ruta /rocasagna-pizzeria/)
 npm run preview      # probar el build
 ```
@@ -58,8 +59,24 @@ Los datos a `null` no se muestran: la web nunca enseña huecos ni enlaces rotos.
 
 ## Despliegue
 
-- **Demo**: rama `gh-pages` (GitHub Pages), generada con `npm run build:demo`. Lleva `noindex` para que Google no la indexe como web oficial.
-- **Producción** (Cloudflare Pages, Netlify o cualquier hosting estático): comando `npm run build`, carpeta `dist`, variable `VITE_SITE_URL` con el dominio y `VITE_NOINDEX=false`.
+### Demo en orbitawebs.com/rocasagna-pizzeria
+
+La demo vive como archivos estáticos dentro del repo de la web de Órbita (`BertoProyect/orbitawebs`), en `public/rocasagna-pizzeria/`. Cloudflare la sirve directamente, sin pasar por la app de TanStack.
+
+Para actualizarla después de cambiar algo aquí:
+
+```bash
+npm run build:orbita
+# copiar dist/ a orbitawebs/public/rocasagna-pizzeria/ (sin robots.txt)
+# commit + push a main de orbitawebs -> Cloudflare despliega solo
+```
+
+En `orbitawebs/public/_headers` hay un bloque `/rocasagna-pizzeria/*` que sustituye la CSP general por una que permite las fotos de Pexels y el mapa de OpenStreetMap, y añade `X-Robots-Tag: noindex`. **Sin ese bloque, las fotos y el mapa salen bloqueados.** Para otra demo, copia el bloque cambiando la ruta.
+
+### Otras opciones
+
+- **GitHub Pages**: rama `gh-pages`, generada con `npm run build:demo`.
+- **Producción** con dominio propio del cliente (Cloudflare, Netlify o cualquier hosting estático): comando `npm run build`, carpeta `dist`, variable `VITE_SITE_URL` con el dominio y `VITE_NOINDEX=false`.
 
 ## Accesibilidad y rendimiento
 
