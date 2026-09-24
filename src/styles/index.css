@@ -1,0 +1,308 @@
+@import "tailwindcss";
+@import "@fontsource-variable/jost/wght.css";
+
+/* ================================================================
+   TOKENS DE MARCA (extraídos del logo y la carta de Rocasagna)
+   Amarillo del logo #EDB500 · antracita del aro #282828
+   ================================================================ */
+:root {
+  --brand-yellow: oklch(0.802 0.164 86.1);      /* amarillo del logo */
+  --brand-gold-dark: oklch(0.697 0.143 82.3);   /* estados secundarios */
+  --brand-dark: oklch(0.214 0.002 67.7);        /* fondo principal */
+  --brand-dark-soft: oklch(0.253 0.002 67.7);   /* superficies */
+  --brand-ring: oklch(0.277 0 0);               /* aro del logo */
+  --brand-white: oklch(0.962 0.011 84.6);       /* texto sobre oscuro */
+  --brand-muted: oklch(0.769 0.017 82.8);       /* texto secundario (8.4:1) */
+  --brand-red: oklch(0.584 0.184 32.3);         /* solo acento: picante */
+
+  --header-h: 4rem;
+  --bar-h: calc(4.25rem + env(safe-area-inset-bottom, 0px));
+  --gutter: 1.25rem;
+  --radius: 6px; /* Regla de forma: elementos interactivos y etiquetas 6px; fotos a sangre, sin radio. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.83, 0, 0.17, 1);
+}
+@media (min-width: 768px) { :root { --gutter: 2rem; } }
+@media (min-width: 1024px) { :root { --header-h: 4.5rem; --bar-h: 0px; --gutter: 2.5rem; } }
+
+@theme inline {
+  --font-sans: "Jost Variable", "Jost", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --color-yellow: var(--brand-yellow);
+  --color-gold: var(--brand-gold-dark);
+  --color-ink: var(--brand-dark);
+  --color-ink-soft: var(--brand-dark-soft);
+  --color-ring-dark: var(--brand-ring);
+  --color-light: var(--brand-white);
+  --color-muted: var(--brand-muted);
+  --color-tomato: var(--brand-red);
+  --ease-out-expo: var(--ease-out);
+}
+
+/* ================================================================
+   BASE
+   ================================================================ */
+@layer base {
+  html {
+    background: var(--brand-dark);
+    color: var(--brand-white);
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-h);
+    -webkit-tap-highlight-color: transparent;
+  }
+  body { min-height: 100dvh; font-size: 1.0625rem; line-height: 1.6; overflow-x: clip; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--brand-yellow); color: var(--brand-dark); }
+  :focus-visible { outline: 2px solid var(--brand-yellow); outline-offset: 3px; border-radius: 2px; }
+  img { max-width: 100%; }
+}
+
+/* Componentes en su capa para que las utilidades de Tailwind (hidden, w-full...) puedan sobrescribirlos */
+@layer components {
+/* ================================================================
+   LAYOUT
+   ================================================================ */
+.container-x { width: min(100% - 2 * var(--gutter), 82.5rem); margin-inline: auto; }
+.section-pad { padding-block: clamp(5rem, 4rem + 5vw, 9rem); }
+
+.skip-link {
+  position: fixed; left: 1rem; top: -4rem; z-index: 100;
+  background: var(--brand-yellow); color: var(--brand-dark);
+  padding: .75rem 1rem; border-radius: var(--radius); font-weight: 600;
+  transition: top .2s var(--ease-out);
+}
+.skip-link:focus { top: 1rem; }
+
+/* ================================================================
+   TIPOGRAFÍA
+   ================================================================ */
+.t-display {
+  font-weight: 700;
+  font-size: clamp(2.75rem, 1.55rem + 5.4vw, 6rem);
+  line-height: .95;
+  letter-spacing: -0.025em;
+}
+.t-h2 {
+  font-weight: 700;
+  font-size: clamp(2.125rem, 1.45rem + 3vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.t-kicker {
+  font-weight: 600; font-size: .8125rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--brand-yellow);
+}
+.t-lead { font-size: clamp(1.0625rem, 1rem + .35vw, 1.25rem); line-height: 1.55; color: var(--brand-muted); }
+.t-phone { font-weight: 300; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+
+/* Palabras que suben desde una máscara (títulos) */
+.w { display: inline-block; overflow: clip; overflow-clip-margin: .12em; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+.w > span { display: inline-block; will-change: transform; }
+
+/* ================================================================
+   BOTONES
+   ================================================================ */
+.btn {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+  min-height: 3.25rem; padding: .85rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 700; font-size: .9375rem; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+  transition: transform .35s var(--ease-out), background-color .25s, color .25s, border-color .25s, box-shadow .35s var(--ease-out);
+  -webkit-user-select: none; user-select: none;
+}
+.btn svg { flex: none; }
+.btn:active { transform: translateY(1px) scale(.98); }
+.btn-primary { background: var(--brand-yellow); color: var(--brand-dark); }
+.btn-primary::after {
+  /* brillo que cruza al pasar el ratón */
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(105deg, transparent 35%, oklch(1 0 0 / .45) 50%, transparent 65%);
+  transform: translateX(-120%);
+}
+.btn-secondary { border: 1.5px solid var(--brand-yellow); color: var(--brand-yellow); background: oklch(0.214 0.002 67.7 / .35); }
+.btn-sm { min-height: 2.5rem; padding: .5rem 1rem; font-size: .8125rem; }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary:hover { background: oklch(0.85 0.16 88); box-shadow: 0 10px 30px -12px oklch(0.802 0.164 86.1 / .6); }
+  .btn-primary:hover::after { transform: translateX(120%); transition: transform .8s var(--ease-out); }
+  .btn-secondary:hover { background: var(--brand-yellow); color: var(--brand-dark); }
+}
+
+.link-underline { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .45s var(--ease-out); }
+.link-underline:hover, .link-underline:focus-visible { background-size: 100% 1px; }
+
+.tag {
+  display: inline-flex; align-items: center; gap: .35rem;
+  background: var(--brand-yellow); color: var(--brand-dark);
+  border-radius: var(--radius); padding: .2rem .55rem;
+  font-size: .6875rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; line-height: 1.4;
+}
+
+/* ================================================================
+   CABECERA
+   ================================================================ */
+.site-header {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  transition: transform .5s var(--ease-out), background-color .4s, border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+.site-header[data-solid="true"] { background: oklch(0.214 0.002 67.7 / .94); border-bottom-color: oklch(1 0 0 / .08); }
+@supports (backdrop-filter: blur(1px)) {
+  .site-header[data-solid="true"] { background: oklch(0.214 0.002 67.7 / .82); backdrop-filter: blur(14px) saturate(1.2); }
+}
+.site-header[data-hidden="true"] { transform: translateY(-100%); }
+.nav-link { position: relative; font-weight: 500; font-size: .9375rem; padding-block: .5rem; color: var(--brand-white); transition: color .2s; }
+.nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: .15rem; height: 2px; background: var(--brand-yellow); transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease-out); }
+.nav-link:hover { color: var(--brand-yellow); }
+.nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.header-enter { animation: header-in .9s var(--ease-out) .1s both; }
+@keyframes header-in { from { opacity: 0; transform: translateY(-12px); } }
+
+/* Menú móvil */
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 60;
+  background: var(--brand-dark);
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  transition: clip-path .7s var(--ease-in-out), visibility 0s linear .7s;
+}
+.mobile-menu[data-open="true"] { clip-path: inset(0 0 0 0); visibility: visible; transition: clip-path .7s var(--ease-in-out), visibility 0s; }
+.mobile-menu .mm-item { opacity: 0; transform: translateY(24px); transition: opacity .5s var(--ease-out), transform .7s var(--ease-out); }
+.mobile-menu[data-open="true"] .mm-item { opacity: 1; transform: none; transition-delay: calc(.25s + var(--i, 0) * .06s); }
+
+.burger { position: relative; width: 2.75rem; height: 2.75rem; display: grid; place-items: center; border-radius: var(--radius); }
+.burger span { position: absolute; width: 1.375rem; height: 2px; background: currentColor; border-radius: 2px; transition: transform .45s var(--ease-out), opacity .2s; }
+.burger span:nth-child(1) { transform: translateY(-4px); }
+.burger span:nth-child(2) { transform: translateY(4px); }
+.burger[aria-expanded="true"] span:nth-child(1) { transform: rotate(45deg); }
+.burger[aria-expanded="true"] span:nth-child(2) { transform: rotate(-45deg); }
+
+/* ================================================================
+   ESTADO ABIERTO / CERRADO
+   ================================================================ */
+.status-dot { position: relative; width: .6rem; height: .6rem; border-radius: 999px; flex: none; }
+.status-dot[data-open="true"] { background: var(--brand-yellow); }
+.status-dot[data-open="true"]::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--brand-yellow);
+  animation: pulse 2s var(--ease-out) infinite;
+}
+.status-dot[data-open="false"] { border: 1.5px solid var(--brand-muted); }
+.status-dot[data-open="unknown"] { border: 1.5px solid oklch(1 0 0 / .3); }
+@keyframes pulse { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(3); opacity: 0; } }
+
+/* ================================================================
+   HERO
+   ================================================================ */
+.hero-media img { animation: hero-settle 2.2s var(--ease-out) both; }
+@keyframes hero-settle { from { transform: scale(1.14); } to { transform: scale(1); } }
+.hero-title .w > span { animation: rise 1.1s var(--ease-out) both; animation-delay: calc(.2s + var(--i) * .08s); }
+@keyframes rise { from { transform: translateY(110%); } }
+.hero-fade { animation: fade-up 1s var(--ease-out) both; animation-delay: var(--d, .6s); }
+@keyframes fade-up { from { opacity: 0; transform: translateY(18px); } }
+.hero-seal { animation: seal-in 1.4s var(--ease-out) .5s both; }
+@keyframes seal-in { from { opacity: 0; transform: rotate(-14deg) scale(.86); } }
+
+/* ================================================================
+   FRANJA DE CONFIANZA (marquesina)
+   ================================================================ */
+.marquee { display: flex; width: max-content; }
+.marquee-group { display: flex; align-items: center; flex: none; }
+
+/* ================================================================
+   CARTA
+   ================================================================ */
+.menu-tabs {
+  position: sticky; top: var(--header-h); z-index: 20;
+  transition: top .5s var(--ease-out);
+}
+html[data-header="hidden"] .menu-tabs { top: 0; }
+.menu-tabs-scroller { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; scroll-snap-type: x proximity; }
+.menu-tabs-scroller::-webkit-scrollbar { display: none; }
+.menu-tab {
+  position: relative; flex: none; scroll-snap-align: start;
+  min-height: 3rem; padding: .75rem 1.1rem;
+  font-weight: 600; font-size: .9375rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--brand-muted); transition: color .3s;
+}
+.menu-tab[aria-selected="true"] { color: var(--brand-yellow); }
+.menu-tab:hover { color: var(--brand-white); }
+.menu-tab[aria-selected="true"]:hover { color: var(--brand-yellow); }
+.menu-tab-indicator {
+  position: absolute; left: 0; bottom: 0; height: 2px; width: 1px; background: var(--brand-yellow);
+  transform-origin: left; transition: transform .55s var(--ease-out);
+}
+.menu-name { font-weight: 600; font-size: clamp(1.0625rem, 1rem + .3vw, 1.25rem); letter-spacing: .05em; text-transform: uppercase; color: var(--brand-yellow); line-height: 1.25; }
+.menu-price { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--brand-white); }
+.menu-rule { display: block; height: 1px; background: oklch(1 0 0 / .22); transform-origin: left; }
+
+/* ================================================================
+   FOTOS
+   ================================================================ */
+.photo { position: relative; overflow: hidden; background: var(--brand-dark-soft); }
+.photo > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.photo-fallback {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background:
+    radial-gradient(60% 60% at 30% 25%, oklch(0.802 0.164 86.1 / .10), transparent 70%),
+    radial-gradient(50% 50% at 80% 90%, oklch(0.584 0.184 32.3 / .10), transparent 70%),
+    var(--brand-dark-soft);
+}
+.photo-fallback img { width: clamp(3.5rem, 18%, 6rem); opacity: .5; }
+
+/* ================================================================
+   MAPA
+   ================================================================ */
+.map-frame { filter: grayscale(1) invert(.92) contrast(.88) brightness(.92); }
+.map-pin::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 3.5rem; height: 3.5rem; margin: -1.75rem 0 0 -1.75rem;
+  border-radius: 999px; border: 2px solid var(--brand-yellow);
+  animation: ring 2.4s var(--ease-out) infinite;
+}
+@keyframes ring { from { transform: scale(.3); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+@media (pointer: coarse) { .map-frame { pointer-events: none; } }
+
+/* ================================================================
+   BARRA DE PEDIDO MÓVIL
+   ================================================================ */
+.order-bar {
+  position: fixed; inset: auto 0 0 0; z-index: 45;
+  padding: .625rem var(--gutter) calc(.625rem + env(safe-area-inset-bottom, 0px));
+  background: oklch(0.214 0.002 67.7 / .97);
+  border-top: 1px solid oklch(1 0 0 / .1);
+  animation: bar-in .8s var(--ease-out) 1s both;
+}
+@keyframes bar-in { from { transform: translateY(100%); } }
+
+/* Botones magnéticos: GSAP mueve el transform, CSS solo anima colores */
+.is-magnetic { transition-property: background-color, color, border-color, box-shadow; }
+}
+
+/* ================================================================
+   MOVIMIENTO REDUCIDO
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+  }
+  .status-dot::after, .map-pin::before { display: none; }
+}
+
+
+/* Marquesina sin movimiento: una sola tanda, centrada */
+@media (prefers-reduced-motion: reduce) {
+  .marquee { width: auto; justify-content: center; }
+  .marquee-dup, .marquee-extra { display: none; }
+  .marquee-group { flex: 1 1 100%; flex-wrap: wrap; justify-content: center; row-gap: .5rem; }
+}
