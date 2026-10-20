@@ -12,8 +12,8 @@ export interface Slot { open: string; close: string }
 export const TIME_ZONE = 'Europe/Madrid'
 
 export const weeklyHours: Record<DayKey, Slot[]> = {
-  monday: [],
-  tuesday: [],
+  monday: [{ open: '20:00', close: '23:00' }],
+  tuesday: [{ open: '20:00', close: '23:00' }],
   wednesday: [{ open: '20:00', close: '23:00' }],
   thursday: [{ open: '20:00', close: '23:00' }],
   friday: [
@@ -41,7 +41,7 @@ export const dayLabels: Record<DayKey, string> = {
 }
 
 /** Resumen corto para el pie de página. */
-export const hoursSummary = 'De miércoles a domingo'
+export const hoursSummary = 'Todos los días'
 
 /** schema.org usa nombres de día en inglés. */
 export const schemaDay: Record<DayKey, string> = {
