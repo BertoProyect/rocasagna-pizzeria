@@ -80,12 +80,20 @@ export function Footer({ onHome = true }: { onHome?: boolean }) {
             </ul>
           </nav>
           {business.credit ? (
-            <p>
-              Web:{' '}
-              <a href={business.credit.url} target="_blank" rel="noopener" className="link-underline hover:text-light">
-                {business.credit.label}
-              </a>
-            </p>
+            <a
+              href={business.credit.url}
+              target="_blank"
+              rel="noopener"
+              aria-label={`Web hecha por ${business.credit.label}`}
+              className="inline-flex items-center gap-2 opacity-70 transition-opacity hover:opacity-100"
+            >
+              <span aria-hidden="true">By</span>
+              {/* Logo de Órbita Webs: horizontal en PC, apilado en móvil */}
+              <picture>
+                <source media="(min-width: 768px)" srcSet={`${BASE}brand/orbita-logo-horizontal-white.webp`} width={99} height={14} />
+                <img src={`${BASE}brand/orbita-logo-apilado-white.webp`} width={48} height={28} alt="" loading="lazy" decoding="async" className="h-7 w-auto md:h-3.5" />
+              </picture>
+            </a>
           ) : null}
         </div>
       </div>
